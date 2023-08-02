@@ -9,9 +9,17 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = 3000;
 
+function logger(req, res, next){
+    console.log("Request Method: ", req.method);
+    console.log("Request URL: ", req.url);
+    next();
+}
+
+app.use(logger);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
-    morgan('combined',fs.createWriteStream(path.join(__dirname, 'access.log'), {flage: 'a'})
+    morgan('combined',fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'})
 ));
 
 app.get("/", (req, res) => {
